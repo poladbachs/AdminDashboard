@@ -1,5 +1,5 @@
 "use client";
-import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, Grid, ListItemText, CssBaseline, Box, Typography } from '@mui/material';
+import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, Grid, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -57,10 +57,25 @@ export default function Home() {
                 </List>
             </Drawer>
 
-            <main>
-              <Typography variant="h6" color="black">
-                  {selectedModule}
-              </Typography>
+            <main style={{ flexGrow: 1, padding: '20px' }}>
+                <Typography variant="h6" color="black" gutterBottom>
+                    {selectedModule}
+                </Typography>
+
+                <TableContainer component={Paper}>
+                    <Table aria-label="module data table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Time</TableCell>
+                                <TableCell>Server</TableCell>
+                                <TableCell>Author</TableCell>
+                                <TableCell>Current Hash</TableCell>
+                                <TableCell>Previous Hash</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                </TableContainer>
             </main>
         </Box>
     );
