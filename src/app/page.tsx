@@ -25,6 +25,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [selectedServer, setSelectedServer] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [dateSortOrder, setDateSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const fetchLogData = async () => {
     try {
@@ -65,9 +66,9 @@ export default function Home() {
     setSelectedModule(pathModule);
   }, [pathname]);
 
-  // useEffect(() => {
-  //   fetchLogData();
-  // }, [selectedModule]);
+  useEffect(() => {
+    fetchLogData();
+  }, [selectedModule]);
 
   const handleModuleClick = (module: string) => {
     setSelectedModule(module);
@@ -83,17 +84,30 @@ export default function Home() {
     setSortOrder(order);
   };
 
+  const handleDateSortChange = (event: SelectChangeEvent<string>) => {
+    const order = event.target.value === 'newest_first' ? 'desc' : 'asc';
+    setDateSortOrder(order);
+  };
+
   const filteredLogData = selectedServer
     ? logData.filter(entry => entry.server.toLowerCase() === selectedServer)
     : logData;
 
-  const sortedLogData = [...filteredLogData].sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return a.author.localeCompare(b.author);
-    } else {
-      return b.author.localeCompare(a.author);
-    }
-  });
+  const sortedLogData = [...filteredLogData]
+    .sort((a, b) => {
+      if (dateSortOrder === 'asc') {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      } else {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+    })
+    .sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.author.localeCompare(b.author);
+      } else {
+        return b.author.localeCompare(a.author);
+      }
+    });
 
   useEffect(() => {
     const mockLogData: LogEntry[] = [
@@ -151,11 +165,25 @@ export default function Home() {
 
           <Box display="flex" alignItems="center">
             <FormControl className="mr-2 min-w-[100px]">
+              <InputLabel id="date-label" className="text-black">Date</InputLabel>
+              <Select
+                labelId="date-label"
+                label="Date"
+                className="text-sm"
+                value={dateSortOrder}
+                onChange={handleDateSortChange}
+              >
+                <MenuItem value="newest_first">Newest First</MenuItem>
+                <MenuItem value="oldest_first">Oldest First</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl className="mr-2 min-w-[100px]">
               <InputLabel id="server-label" className="text-black">Server</InputLabel>
               <Select
                 labelId="server-label"
                 label="Server"
-                className="h-10 text-sm"
+                className="text-sm p-0"
                 value={selectedServer}
                 onChange={handleServerChange}
               >
@@ -170,7 +198,7 @@ export default function Home() {
               <Select
                 labelId="author-label"
                 label="Author"
-                className="h-10 text-sm"
+                className="text-sm"
                 value={sortOrder}
                 onChange={handleSortChange}
               >
@@ -179,6 +207,7 @@ export default function Home() {
                 <MenuItem value="z_to_a">Z-A</MenuItem>
               </Select>
             </FormControl>
+
           </Box>
         </Box>
 
@@ -202,8 +231,8 @@ export default function Home() {
                 <TableCell>{entry.time}</TableCell>
                 <TableCell>{entry.server}</TableCell>
                 <TableCell>{entry.author}</TableCell>
-                <TableCell>{entry.currentHash}</TableCell>
-                <TableCell>{entry.previousHash}</TableCell>
+                <TableCell>{entry.currentHash.slice(0, 6)}</TableCell>
+                <TableCell>{entry.previousHash.slice(0, 6)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
