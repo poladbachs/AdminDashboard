@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DEC Energy Landing Page
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+**DEC Energy Landing Page** is a dynamic web application built with **Next.js**. This application provides users with an intuitive interface for viewing and managing logs across different company modules (e.g., **Django**, **Website**, **Database**). The project demonstrates the use of **Next.js** for server-side rendering, **React** for state management, and **Material UI (MUI)** and **Tailwind CSS** for responsive, modern design. It fetches real-time data from a custom API endpoint and displays it in an organized table with sortable columns and easy navigation between modules.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Module Navigation**: Switch between viewing logs for specific modules using a sidebar.
+- **Date Sorting**: Sort log entries by date to view either the latest or oldest entries.
+- **Server and Author Filtering**: Filter logs by server type and sort by author in alphabetical order.
+- **Dynamic Log Display**: Log data is displayed in a table format, with columns for date, time, server, author, current hash, and previous hash.
+- **Loading State**: A loading indicator is displayed with a corresponding message while data is being fetched.
+- **Error Handling**: Displays an error message if log data is empty.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A demo video showcases key features of the **DEC Energy Landing Page**, including module navigation, log filtering, and sorting options for a streamlined log viewing experience.
 
-## Learn More
+![dec-company-langing-page](https://github.com/user-attachments/assets/99815e96-6961-4f34-87c0-723a57d31ec8)
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **React.js** and **Next.js** for component-based architecture and server-side rendering.
+- **TypeScript** for type-safe coding and improved maintainability.
+- **Material UI (MUI)** and **Tailwind CSS** for a modern, responsive UI design.
+- **Axios** for handling HTTP requests, specifically in server-side data fetching with Next.js.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## What I Did in This Project
 
-## Deploy on Vercel
+In the **DEC Energy Landing Page** project, I implemented:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Server-Side Data Fetching with Axios**:
+  - Leveraged **Next.js** server-side features to fetch data from an API using **Axios**, ensuring optimized performance.
+  
+- **Component-Based Layout**:
+  - Built reusable MUI components such as `Drawer`, `Toolbar`, `Table`, and filtering controls for modular and maintainable code.
+  
+- **Data Filtering and Sorting**:
+  - Enabled filtering of log entries by date, server type and author.
+  - Added date and author sorting options to customize the log viewing experience.
+  
+- **Dynamic and Interactive UI**:
+  - Used **MUI** and **Tailwind CSS** for flexible styling to create a visually appealing and responsive interface.
+  - Developed an interactive sidebar for easy module selection, improving navigation and user experience.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Conclusion
+
+This project demonstrates advanced usage of **Next.js**, **React**, and modern UI libraries to build a feature-rich and highly interactive web application. The DEC Energy Landing Page serves as a practical example of creating scalable and user-friendly applications that are both responsive and visually appealing.
