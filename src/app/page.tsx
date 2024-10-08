@@ -26,9 +26,11 @@ export default function Home() {
   const [selectedServer, setSelectedServer] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [dateSortOrder, setDateSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchLogData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get('/api/logdata');
       console.log('Fetched Log Data:', response.data);
       const logData: string = response.data;
@@ -56,6 +58,8 @@ export default function Home() {
     } catch (error) {
       setError('Error fetching log data');
       console.error('Error fetching log data:', error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -218,7 +222,11 @@ export default function Home() {
         <Divider className="my-2 border-gray-300" />
 
 
-        {logData.length === 0 ? (
+        {loading ? (
+          <Typography variant="h6" className="text-gray-700 text-center">
+            Loading log entries...
+          </Typography>
+        ) : logData.length === 0 ? (
           <Typography variant="h6" className="text-gray-700 text-center">
             Dashboard is empty. There are no log entries available for the {selectedModule} submodule.
           </Typography>
