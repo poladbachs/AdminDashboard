@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-const drawerWidth = 200;
+const drawerWidth = 240;
 
 export default function Home() {
   const router = useRouter();
@@ -28,6 +28,7 @@ export default function Home() {
       <Drawer
         sx={{
           width: drawerWidth,
+          flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
@@ -45,7 +46,7 @@ export default function Home() {
               component="button"
               key={text}
               onClick={() => handleModuleClick(text)}
-              className={`space-x-3 rounded-l-lg rounded-r-none ${selectedModule === text ? 'bg-[#F0F0F0]' : ''} hover:bg-[#F0F0F0]`}
+              className={`space-x-3 rounded-l-lg rounded-r-none ${selectedModule === text ? 'bg-[#F0F0F0]' : ''} hover:bg-[#E0E0E0]`}
               >
               <ListItemIcon className="min-w-0">
                 <Box className="w-5 h-5 bg-black" />
@@ -64,7 +65,7 @@ export default function Home() {
           <AppBar position="static" className="bg-white">
             <Toolbar>
               <Typography variant="h6" noWrap color="black">
-                Dashboard
+                {selectedModule}
               </Typography>
             </Toolbar>
           </AppBar>
