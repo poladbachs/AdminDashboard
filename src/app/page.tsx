@@ -23,7 +23,7 @@ export default function Home() {
   const [selectedModule, setSelectedModule] = useState<string>('Django');
   const [logData, setLogData] = useState<LogEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [selectedServer, setSelectedServer] = useState<string>('');
+  const [selectedServer, setSelectedServer] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [dateSortOrder, setDateSortOrder] = useState<'asc' | 'desc'>('desc');
 
@@ -163,13 +163,22 @@ export default function Home() {
             {selectedModule}
           </Typography>
 
-          <Box display="flex" alignItems="center">
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{
+              padding: '0 !important',
+              '& .MuiSelect-select': {
+                padding: '0 !important',
+                display: 'flex',
+                alignItems: 'center',
+              },
+            }}>
             <FormControl className="mr-2 min-w-[100px]">
-              <InputLabel id="date-label" className="text-black">Date</InputLabel>
+              <InputLabel id="date-label" className="text-black" shrink>Date</InputLabel>
               <Select
                 labelId="date-label"
                 label="Date"
-                className="text-sm"
                 value={dateSortOrder}
                 onChange={handleDateSortChange}
               >
@@ -179,26 +188,24 @@ export default function Home() {
             </FormControl>
 
             <FormControl className="mr-2 min-w-[100px]">
-              <InputLabel id="server-label" className="text-black">Server</InputLabel>
+              <InputLabel id="server-label" className="text-black" shrink>Server</InputLabel>
               <Select
                 labelId="server-label"
                 label="Server"
-                className="text-sm p-0"
                 value={selectedServer}
                 onChange={handleServerChange}
               >
-                <MenuItem value="">Select Server</MenuItem>
+                <MenuItem value="">Select</MenuItem>
                 <MenuItem value="deployment">Deployment</MenuItem>
                 <MenuItem value="testing">Testing</MenuItem>
               </Select>
             </FormControl>
 
             <FormControl className="min-w-[100px]">
-              <InputLabel id="author-label" className="text-black">Author</InputLabel>
+              <InputLabel id="author-label" className="text-black" shrink>Author</InputLabel>
               <Select
                 labelId="author-label"
                 label="Author"
-                className="text-sm"
                 value={sortOrder}
                 onChange={handleSortChange}
               >
