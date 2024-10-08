@@ -218,9 +218,9 @@ export default function Home() {
         <Divider className="my-2 border-gray-300" />
 
 
-        {selectedModule === 'Database' && logData.length === 0 ? (
+        {logData.length === 0 ? (
           <Typography variant="h6" className="text-gray-700 text-center">
-            Dashboard is empty. There are no log entries available for the Database submodule.
+            Dashboard is empty. There are no log entries available for the {selectedModule} submodule.
           </Typography>
         ) : (
           <TableContainer>
