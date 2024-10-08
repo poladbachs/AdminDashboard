@@ -1,7 +1,7 @@
 "use client";
-import { AppBar, Toolbar, Drawer, Divider, Select, MenuItem, List, ListItem, ListItemIcon, Grid, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
+import { AppBar, Toolbar, Drawer, Divider, Select, MenuItem, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import axios from 'axios';
 
@@ -26,6 +26,29 @@ export default function Home() {
   const [selectedServer, setSelectedServer] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [dateSortOrder, setDateSortOrder] = useState<'asc' | 'desc'>('desc');
+
+  const dateSelectRef = useRef<HTMLSelectElement>(null);
+  const serverSelectRef = useRef<HTMLSelectElement>(null);
+  const authorSelectRef = useRef<HTMLSelectElement>(null);
+
+  const handleSelectChange = (event: SelectChangeEvent<string>, ref: React.RefObject<HTMLSelectElement>) => {
+    if (ref.current) {
+      ref.current.blur();
+    }
+    switch (event.target.name) {
+      case 'date':
+        handleDateSortChange(event);
+        break;
+      case 'server':
+        handleServerChange(event);
+        break;
+      case 'author':
+        handleSortChange(event);
+        break;
+      default:
+        break;
+    }
+  };
 
   const fetchLogData = async () => {
     try {
@@ -109,18 +132,6 @@ export default function Home() {
       }
     });
 
-  useEffect(() => {
-    const mockLogData: LogEntry[] = [
-      { date: '1 Jan 2024', time: '12:00:00', server: 'Deployment', author: 'Alice', currentHash: 'abc123', previousHash: 'def456', submodule: 'django' },
-      { date: '2 Jan 2024', time: '13:00:00', server: 'Testing', author: 'Bob', currentHash: 'ghi789', previousHash: 'jkl012', submodule: 'website' },
-      { date: '3 Jan 2024', time: '14:00:00', server: 'Deployment', author: 'Charlie', currentHash: 'mno345', previousHash: 'pqr678', submodule: 'database' },
-      { date: '4 Jan 2024', time: '15:00:00', server: 'Testing', author: 'Alice', currentHash: 'stu901', previousHash: 'vwx234', submodule: 'django' },
-      { date: '5 Jan 2024', time: '16:00:00', server: 'Deployment', author: 'Bob', currentHash: 'yz1234', previousHash: 'abcd567', submodule: 'website' },
-    ];
-
-    setLogData(mockLogData);
-  }, []);
-
   return (
     <Box className="flex">
       <CssBaseline />
@@ -174,7 +185,7 @@ export default function Home() {
                 alignItems: 'center',
               },
             }}>
-            <FormControl className="mr-2 min-w-[100px]">
+            <FormControl className="mr-2 min-w-[120px]">
               <InputLabel id="date-label" className="text-black" shrink>Date</InputLabel>
               <Select
                 labelId="date-label"
@@ -187,7 +198,7 @@ export default function Home() {
               </Select>
             </FormControl>
 
-            <FormControl className="mr-2 min-w-[100px]">
+            <FormControl className="mr-2 min-w-[120px]">
               <InputLabel id="server-label" className="text-black" shrink>Server</InputLabel>
               <Select
                 labelId="server-label"
@@ -201,8 +212,8 @@ export default function Home() {
               </Select>
             </FormControl>
 
-            <FormControl className="min-w-[100px]">
-              <InputLabel id="author-label" className="text-black" shrink>Author</InputLabel>
+            <FormControl className="min-w-[120px]">
+              <InputLabel id="author-label" className="text-black text-sm" shrink>Author</InputLabel>
               <Select
                 labelId="author-label"
                 label="Author"
@@ -220,31 +231,56 @@ export default function Home() {
 
         <Divider className="my-2 border-gray-300" />
 
-        <Table>
-          <TableHead>
-            <TableRow className="">
-              <TableCell>Date</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>Server</TableCell>
-              <TableCell>Author</TableCell>
-              <TableCell>Current Hash</TableCell>
-              <TableCell>Previous Hash</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedLogData.map((entry, index) => (
-              <TableRow key={index}>
-                <TableCell>{entry.date}</TableCell>
-                <TableCell>{entry.time}</TableCell>
-                <TableCell>{entry.server}</TableCell>
-                <TableCell>{entry.author}</TableCell>
-                <TableCell>{entry.currentHash.slice(0, 6)}</TableCell>
-                <TableCell>{entry.previousHash.slice(0, 6)}</TableCell>
+        <TableContainer>
+          <Table className="border-separate" style={{ borderSpacing: '0 15px' }}>
+            <TableHead
+            >
+              <TableRow
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
+              >
+                <TableCell className="pb-0 text-[11px]">DATE</TableCell>
+                <TableCell className="pb-0 text-[11px]">TIME</TableCell>
+                <TableCell className="pb-0 text-[11px]">SERVER</TableCell>
+                <TableCell className="pb-0 text-[11px]">AUTHOR</TableCell>
+                <TableCell className="pb-0 text-[11px]">CURRENT HASH</TableCell>
+                <TableCell className="pb-0 text-[11px]">PREVIOUS HASH</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+
+            <TableBody
+              sx={{
+                backgroundColor: '#F7F8FA',
+                '&:last-child td, &:last-child th': { border: 0 },
+              }}
+            >
+              {sortedLogData.map((entry, index) => (
+                <TableRow key={index} >
+                  <TableCell className="text-gray-700 rounded-l-[20px] text-md font-medium">
+                    {entry.date}
+                  </TableCell>
+                  <TableCell className="text-gray-700 text-md font-medium">
+                    {entry.time}
+                  </TableCell>
+                  <TableCell className="text-gray-700 text-md font-medium">
+                    {entry.server}
+                  </TableCell>
+                  <TableCell className="text-gray-700 text-md font-medium">
+                    {entry.author}
+                  </TableCell>
+                  <TableCell className="text-gray-700 text-md font-medium">
+                    {entry.currentHash.slice(0, 6)}
+                  </TableCell>
+                  <TableCell className="text-gray-700 text-md rounded-r-[20px] font-medium">
+                    {entry.previousHash.slice(0, 6)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </main>
-    </Box>
+    </Box >
   );
 }
