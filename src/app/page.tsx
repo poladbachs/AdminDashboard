@@ -3,18 +3,66 @@ import { AppBar, Toolbar, Drawer, Divider, Select, MenuItem, List, ListItem, Lis
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import axios from 'axios';
 
 const drawerWidth = 240;
+
+interface LogEntry {
+  date: string;
+  time: string;
+  server: string;
+  author: string;
+  currentHash: string;
+  previousHash: string;
+}
 
 export default function Home() {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedModule, setSelectedModule] = useState<string>('Django');
+  const [logData, setLogData] = useState<LogEntry[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchLogData = async () => {
+    try {
+      const response = await axios.get('/api/logdata');
+      console.log('Fetched Log Data:', response.data);
+      const logData: string = response.data;
+  
+      const parsedData = logData.split('\n').map((line) => {
+        const regex = /(\d{1,2} \w+ \d{4}) (\d{2}:\d{2}:\d{2}) .*Submodule (\w+) has changed from (\w+) to (\w+)/;
+        const match = line.match(regex);
+  
+        if (match) {
+          const moduleName = match[3].toLowerCase();
+          return {
+            date: match[1],
+            time: match[2],
+            server: moduleName === 'django' ? 'Deployment' : 'Testing',
+            author: 'Your GitHub Name',
+            currentHash: match[5],
+            previousHash: match[4],
+          };
+        }
+        return null;
+      }).filter(Boolean) as LogEntry[];
+  
+      setLogData(parsedData.filter(entry => entry.server === selectedModule));
+    } catch (error) {
+      setError('Error fetching log data');
+      console.error('Error fetching log data:', error);
+    }
+  };
+  
 
   useEffect(() => {
     const pathModule = pathname === '/' ? 'Django' : pathname.substring(1).charAt(0).toUpperCase() + pathname.substring(2);
     setSelectedModule(pathModule);
   }, [pathname]);
+
+  useEffect(() => {
+    fetchLogData();
+  }, [selectedModule]);
 
   const handleModuleClick = (module: string) => {
     setSelectedModule(module);
@@ -105,6 +153,18 @@ export default function Home() {
               <TableCell>Previous Hash</TableCell>
             </TableRow>
           </TableHead>
+          <TableBody>
+            {logData.map((entry, index) => (
+              <TableRow key={index}>
+                <TableCell>{entry.date}</TableCell>
+                <TableCell>{entry.time}</TableCell>
+                <TableCell>{entry.server}</TableCell>
+                <TableCell>{entry.author}</TableCell>
+                <TableCell>{entry.currentHash}</TableCell>
+                <TableCell>{entry.previousHash}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </main>
     </Box>
