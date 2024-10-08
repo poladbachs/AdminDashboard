@@ -11,6 +11,11 @@ export default function Home() {
   const pathname = usePathname();
   const [selectedModule, setSelectedModule] = useState<string>('Django');
 
+  useEffect(() => {
+    const pathModule = pathname === '/' ? 'Django' : pathname.substring(1).charAt(0).toUpperCase() + pathname.substring(2);
+    setSelectedModule(pathModule);
+  }, [pathname]);
+
   const handleModuleClick = (module: string) => {
     setSelectedModule(module);
     router.push(`/${module.toLowerCase()}`);
