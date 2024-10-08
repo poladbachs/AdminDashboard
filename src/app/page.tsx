@@ -1,5 +1,5 @@
 "use client";
-import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, Grid, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { AppBar, Toolbar, Drawer, Divider, Select, MenuItem, List, ListItem, ListItemIcon, Grid, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -57,25 +57,25 @@ export default function Home() {
                 </List>
             </Drawer>
 
-            <main style={{ flexGrow: 1, padding: '20px' }}>
-                <Typography variant="h6" color="black" gutterBottom>
+            <main style={{ flexGrow: 1, padding: '60px', paddingTop: '120px' }}>
+                <Typography variant="h5" className="text-black font-bold">
                     {selectedModule}
                 </Typography>
 
-                <TableContainer component={Paper}>
-                    <Table aria-label="module data table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Time</TableCell>
-                                <TableCell>Server</TableCell>
-                                <TableCell>Author</TableCell>
-                                <TableCell>Current Hash</TableCell>
-                                <TableCell>Previous Hash</TableCell>
-                            </TableRow>
-                        </TableHead>
-                    </Table>
-                </TableContainer>
+                <Divider className="my-2 border-gray-300" />
+
+                <Table>
+                    <TableHead>
+                        <TableRow className="">
+                            <TableCell>Date</TableCell>
+                            <TableCell>Time</TableCell>
+                            <TableCell>Server</TableCell>
+                            <TableCell>Author</TableCell>
+                            <TableCell>Current Hash</TableCell>
+                            <TableCell>Previous Hash</TableCell>
+                        </TableRow>
+                    </TableHead>
+                </Table>
             </main>
         </Box>
     );
