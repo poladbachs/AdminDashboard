@@ -1,7 +1,7 @@
 "use client";
 import { AppBar, Toolbar, Drawer, Divider, Select, MenuItem, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import Image from 'next/image';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import axios from 'axios';
 
@@ -26,29 +26,6 @@ export default function Home() {
   const [selectedServer, setSelectedServer] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [dateSortOrder, setDateSortOrder] = useState<'asc' | 'desc'>('desc');
-
-  const dateSelectRef = useRef<HTMLSelectElement>(null);
-  const serverSelectRef = useRef<HTMLSelectElement>(null);
-  const authorSelectRef = useRef<HTMLSelectElement>(null);
-
-  const handleSelectChange = (event: SelectChangeEvent<string>, ref: React.RefObject<HTMLSelectElement>) => {
-    if (ref.current) {
-      ref.current.blur();
-    }
-    switch (event.target.name) {
-      case 'date':
-        handleDateSortChange(event);
-        break;
-      case 'server':
-        handleServerChange(event);
-        break;
-      case 'author':
-        handleSortChange(event);
-        break;
-      default:
-        break;
-    }
-  };
 
   const fetchLogData = async () => {
     try {
