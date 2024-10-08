@@ -2,19 +2,14 @@
 import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, Grid, ListItemText, CssBaseline, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const drawerWidth = 200;
 
 export default function Home() {
   const router = useRouter();
-  const [selectedModule, setSelectedModule] = useState<string | null>('Django');
-
-  useEffect(() => {
-    if (!selectedModule) {
-      router.push('/django');
-    }
-  }, [selectedModule, router]);
+  const pathname = usePathname();
+  const [selectedModule, setSelectedModule] = useState<string>('Django');
 
   const handleModuleClick = (module: string) => {
     setSelectedModule(module);
