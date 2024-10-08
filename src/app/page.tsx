@@ -1,11 +1,9 @@
 "use client";
-import { AppBar, Toolbar, Drawer, Divider, Select, MenuItem, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
-import Image from 'next/image';
+import { Divider, Select, MenuItem, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import axios from 'axios';
-
-const drawerWidth = 240;
+import Sidebar from './Sidebar';
 
 interface LogEntry {
   date: string;
@@ -117,37 +115,7 @@ export default function Home() {
     <Box className="flex">
       <CssBaseline />
 
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar className="justify-center">
-          <Image src="https://dec-energy.ch/safari-pinned-tab.svg" alt="DEC Logo" width={120} height={40} />
-        </Toolbar>
-        <List className="ml-4">
-          {['Django', 'Website', 'Database'].map((text) => (
-            <ListItem
-              component="button"
-              key={text}
-              onClick={() => handleModuleClick(text)}
-              className={`space-x-3 rounded-l-lg rounded-r-none ${selectedModule === text ? 'bg-[#F0F0F0]' : ''} hover:bg-[#E0E0E0]`}
-            >
-              <ListItemIcon className="min-w-0">
-                <Box className="w-5 h-5 bg-black" />
-              </ListItemIcon>
-              <ListItemText primary={text} className="flex justify-start" />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+      <Sidebar selectedModule={selectedModule} onModuleClick={setSelectedModule} />
 
       <main style={{ flexGrow: 1, padding: '60px', paddingTop: '120px' }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
