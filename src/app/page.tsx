@@ -169,37 +169,46 @@ export default function Home() {
                 label="Date"
                 value={dateSortOrder}
                 onChange={handleDateSortChange}
+                className="text-sm"
               >
-                <MenuItem value="newest_first">Newest First</MenuItem>
-                <MenuItem value="oldest_first">Oldest First</MenuItem>
+                <MenuItem value="newest_first" className="text-sm">Newest First</MenuItem>
+                <MenuItem value="oldest_first" className="text-sm">Oldest First</MenuItem>
               </Select>
             </FormControl>
 
-            <FormControl className="mr-2 min-w-[120px]">
+            <FormControl className="mr-2 min-w-[120px] justify-center">
               <InputLabel id="server-label" className="text-black" shrink>Server</InputLabel>
               <Select
                 labelId="server-label"
                 label="Server"
                 value={selectedServer}
                 onChange={handleServerChange}
+                className="text-sm flex justify-center items-center"
+                sx={{
+                  '& .MuiSelect-select': {
+                    display: 'flex',
+                    marginLeft: '5px',
+                  },
+                }}
               >
-                <MenuItem value="">Select</MenuItem>
-                <MenuItem value="deployment">Deployment</MenuItem>
-                <MenuItem value="testing">Testing</MenuItem>
+                <MenuItem value="" className="text-sm">Select</MenuItem>
+                <MenuItem value="deployment" className="text-sm">Deployment</MenuItem>
+                <MenuItem value="testing" className="text-sm">Testing</MenuItem>
               </Select>
             </FormControl>
 
             <FormControl className="min-w-[120px]">
-              <InputLabel id="author-label" className="text-black text-sm" shrink>Author</InputLabel>
+              <InputLabel id="author-label" className="text-black" shrink>Author</InputLabel>
               <Select
                 labelId="author-label"
                 label="Author"
                 value={sortOrder}
                 onChange={handleSortChange}
+                className="text-sm"
               >
-                <MenuItem value="">Select Author</MenuItem>
-                <MenuItem value="a_to_z">A-Z</MenuItem>
-                <MenuItem value="z_to_a">Z-A</MenuItem>
+                <MenuItem value="" className="text-sm">Select Author</MenuItem>
+                <MenuItem value="a_to_z" className="text-sm">A-Z</MenuItem>
+                <MenuItem value="z_to_a" className="text-sm">Z-A</MenuItem>
               </Select>
             </FormControl>
 
@@ -208,55 +217,62 @@ export default function Home() {
 
         <Divider className="my-2 border-gray-300" />
 
-        <TableContainer>
-          <Table className="border-separate" style={{ borderSpacing: '0 15px' }}>
-            <TableHead
-            >
-              <TableRow
+
+        {selectedModule === 'Database' && logData.length === 0 ? (
+          <Typography variant="h6" className="text-gray-700 text-center">
+            Dashboard is empty. There are no log entries available for the Database submodule.
+          </Typography>
+        ) : (
+          <TableContainer>
+            <Table className="border-separate" style={{ borderSpacing: '0 15px' }}>
+              <TableHead
+              >
+                <TableRow
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                  }}
+                >
+                  <TableCell className="pb-0 text-[11px]">DATE</TableCell>
+                  <TableCell className="pb-0 text-[11px]">TIME</TableCell>
+                  <TableCell className="pb-0 text-[11px]">SERVER</TableCell>
+                  <TableCell className="pb-0 text-[11px]">AUTHOR</TableCell>
+                  <TableCell className="pb-0 text-[11px]">CURRENT HASH</TableCell>
+                  <TableCell className="pb-0 text-[11px]">PREVIOUS HASH</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody
                 sx={{
+                  backgroundColor: '#F7F8FA',
                   '&:last-child td, &:last-child th': { border: 0 },
                 }}
               >
-                <TableCell className="pb-0 text-[11px]">DATE</TableCell>
-                <TableCell className="pb-0 text-[11px]">TIME</TableCell>
-                <TableCell className="pb-0 text-[11px]">SERVER</TableCell>
-                <TableCell className="pb-0 text-[11px]">AUTHOR</TableCell>
-                <TableCell className="pb-0 text-[11px]">CURRENT HASH</TableCell>
-                <TableCell className="pb-0 text-[11px]">PREVIOUS HASH</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody
-              sx={{
-                backgroundColor: '#F7F8FA',
-                '&:last-child td, &:last-child th': { border: 0 },
-              }}
-            >
-              {sortedLogData.map((entry, index) => (
-                <TableRow key={index} >
-                  <TableCell className="text-gray-700 rounded-l-[20px] text-md font-medium">
-                    {entry.date}
-                  </TableCell>
-                  <TableCell className="text-gray-700 text-md font-medium">
-                    {entry.time}
-                  </TableCell>
-                  <TableCell className="text-gray-700 text-md font-medium">
-                    {entry.server}
-                  </TableCell>
-                  <TableCell className="text-gray-700 text-md font-medium">
-                    {entry.author}
-                  </TableCell>
-                  <TableCell className="text-gray-700 text-md font-medium">
-                    {entry.currentHash.slice(0, 6)}
-                  </TableCell>
-                  <TableCell className="text-gray-700 text-md rounded-r-[20px] font-medium">
-                    {entry.previousHash.slice(0, 6)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                {sortedLogData.map((entry, index) => (
+                  <TableRow key={index} >
+                    <TableCell className="text-gray-700 rounded-l-[20px] text-md font-medium">
+                      {entry.date}
+                    </TableCell>
+                    <TableCell className="text-gray-700 text-md font-medium">
+                      {entry.time}
+                    </TableCell>
+                    <TableCell className="text-gray-700 text-md font-medium">
+                      {entry.server}
+                    </TableCell>
+                    <TableCell className="text-gray-700 text-md font-medium">
+                      {entry.author}
+                    </TableCell>
+                    <TableCell className="text-gray-700 text-md font-medium">
+                      {entry.currentHash.slice(0, 6)}
+                    </TableCell>
+                    <TableCell className="text-gray-700 text-md rounded-r-[20px] font-medium">
+                      {entry.previousHash.slice(0, 6)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </main>
     </Box >
   );
