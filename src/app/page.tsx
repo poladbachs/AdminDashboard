@@ -1,12 +1,13 @@
 "use client";
-import { Divider, Select, MenuItem, CssBaseline, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
+import { Divider, CssBaseline, Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
+import Filters from './Filters';
 
-interface LogEntry {
+export interface LogEntry {
   date: string;
   time: string;
   server: string;
@@ -17,7 +18,6 @@ interface LogEntry {
 }
 
 export default function Home() {
-  const router = useRouter();
   const pathname = usePathname();
   const [selectedModule, setSelectedModule] = useState<string>('Django');
   const [logData, setLogData] = useState<LogEntry[]>([]);
@@ -58,11 +58,9 @@ export default function Home() {
       setError('Error fetching log data');
       console.error('Error fetching log data:', error);
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
-
-
 
   useEffect(() => {
     const pathModule = pathname === '/' ? 'Django' : pathname.substring(1).charAt(0).toUpperCase() + pathname.substring(2);
@@ -72,20 +70,6 @@ export default function Home() {
   useEffect(() => {
     fetchLogData();
   }, [selectedModule]);
-
-  const handleServerChange = (event: SelectChangeEvent<string>) => {
-    setSelectedServer(event.target.value);
-  };
-
-  const handleSortChange = (event: SelectChangeEvent<string>) => {
-    const order = event.target.value === 'a_to_z' ? 'asc' : 'desc';
-    setSortOrder(order);
-  };
-
-  const handleDateSortChange = (event: SelectChangeEvent<string>) => {
-    const order = event.target.value === 'newest_first' ? 'desc' : 'asc';
-    setDateSortOrder(order);
-  };
 
   const filteredLogData = selectedServer
     ? logData.filter(entry => entry.server.toLowerCase() === selectedServer)
@@ -119,68 +103,16 @@ export default function Home() {
             {selectedModule}
           </Typography>
 
-          <Box
-            display="flex"
-            alignItems="center"
-            sx={{
-              padding: '0 !important',
-              '& .MuiSelect-select': {
-                padding: '0 !important',
-                display: 'flex',
-                alignItems: 'center',
-              },
-            }}>
-            <FormControl className="mr-2 min-w-[120px]">
-              <InputLabel id="date-label" className="text-black" shrink>Date</InputLabel>
-              <Select
-                labelId="date-label"
-                label="Date"
-                value={dateSortOrder}
-                onChange={handleDateSortChange}
-                className="text-sm"
-              >
-                <MenuItem value="newest_first" className="text-sm">Newest First</MenuItem>
-                <MenuItem value="oldest_first" className="text-sm">Oldest First</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl className="mr-2 min-w-[120px] justify-center">
-              <InputLabel id="server-label" className="text-black" shrink>Server</InputLabel>
-              <Select
-                labelId="server-label"
-                label="Server"
-                value={selectedServer}
-                onChange={handleServerChange}
-                className="text-sm flex justify-center items-center"
-                sx={{
-                  '& .MuiSelect-select': {
-                    display: 'flex',
-                    marginLeft: '5px',
-                  },
-                }}
-              >
-                <MenuItem value="" className="text-sm">Select</MenuItem>
-                <MenuItem value="deployment" className="text-sm">Deployment</MenuItem>
-                <MenuItem value="testing" className="text-sm">Testing</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl className="min-w-[120px]">
-              <InputLabel id="author-label" className="text-black" shrink>Author</InputLabel>
-              <Select
-                labelId="author-label"
-                label="Author"
-                value={sortOrder}
-                onChange={handleSortChange}
-                className="text-sm"
-              >
-                <MenuItem value="" className="text-sm">Select Author</MenuItem>
-                <MenuItem value="a_to_z" className="text-sm">A-Z</MenuItem>
-                <MenuItem value="z_to_a" className="text-sm">Z-A</MenuItem>
-              </Select>
-            </FormControl>
-
-          </Box>
+          <Filters
+            dateSortOrder={dateSortOrder}
+            setDateSortOrder={setDateSortOrder}
+            selectedServer={selectedServer}
+            setSelectedServer={setSelectedServer}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+            logData={logData}
+            setLogData={setLogData}
+          />
         </Box>
 
         <Divider className="my-2 border-gray-300" />
