@@ -19,8 +19,6 @@ export default function Filters({
     setSelectedServer, 
     sortOrder, 
     setSortOrder, 
-    logData, 
-    setLogData 
 }: FiltersProps) {
     const handleDateSortChange = (event: SelectChangeEvent<string>) => {
         const order = event.target.value === 'newest_first' ? 'desc' : 'asc';
@@ -35,7 +33,6 @@ export default function Filters({
         const order = event.target.value === 'a_to_z' ? 'asc' : 'desc';
         setSortOrder(order);
     };
-    
 
     return (
         <Box

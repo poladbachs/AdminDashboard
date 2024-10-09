@@ -1,7 +1,6 @@
 "use client";
 import { Divider, CssBaseline, Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
@@ -18,7 +17,6 @@ export interface LogEntry {
 }
 
 export default function Home() {
-  const pathname = usePathname();
   const [selectedModule, setSelectedModule] = useState<string>('Django');
   const [logData, setLogData] = useState<LogEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +29,6 @@ export default function Home() {
     try {
       setLoading(true);
       const response = await axios.get('/api/logdata');
-      console.log('Fetched Log Data:', response.data);
       const logData: string = response.data;
 
       const parsedData = logData.split('\n').map((line) => {
@@ -61,11 +58,6 @@ export default function Home() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const pathModule = pathname === '/' ? 'Django' : pathname.substring(1).charAt(0).toUpperCase() + pathname.substring(2);
-    setSelectedModule(pathModule);
-  }, [pathname]);
 
   useEffect(() => {
     fetchLogData();
