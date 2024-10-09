@@ -91,6 +91,10 @@ export default function Home() {
       }
     });
 
+    const serverMessage = selectedServer 
+    ? `Dashboard is empty. There are no log entries available for the ${selectedModule} submodule on the ${selectedServer} server.`
+    : `Dashboard is empty. There are no log entries available for the ${selectedModule} submodule.`;
+
   return (
     <Box className="flex">
       <CssBaseline />
@@ -117,7 +121,11 @@ export default function Home() {
 
         <Divider className="my-2 border-gray-300" />
 
-        <Dashboard logData={sortedLogData} loading={loading} selectedModule={selectedModule} />
+        <Dashboard
+          logData={sortedLogData}
+          loading={loading}
+          selectedModule={selectedModule}
+          serverMessage={serverMessage} />
       </main>
     </Box >
   );

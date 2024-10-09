@@ -13,15 +13,16 @@ interface DashboardProps {
   logData: LogEntry[];
   loading: boolean;
   selectedModule: string;
+  serverMessage: string;
 }
 
-export default function Dashboard({ logData, loading, selectedModule }: DashboardProps) {
+export default function Dashboard({ logData, loading, selectedModule, serverMessage }: DashboardProps) {
   if (loading) {
     return <Typography variant="h6" className="text-gray-700 text-center">Loading log entries...</Typography>;
   }
 
   if (logData.length === 0) {
-    return <Typography variant="h6" className="text-gray-700 text-center">Dashboard is empty. There are no log entries available for the {selectedModule} submodule.</Typography>;
+    return <Typography variant="h6" className="text-gray-700 text-center">{serverMessage}</Typography>;
   }
 
   return (
