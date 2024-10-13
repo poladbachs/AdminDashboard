@@ -17,7 +17,7 @@ export interface LogEntry {
 }
 
 export default function Home() {
-  const [selectedModule, setSelectedModule] = useState<string>('Django');
+  const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [logData, setLogData] = useState<LogEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedServer, setSelectedServer] = useState('');
@@ -26,6 +26,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchLogData = async () => {
+    if (!selectedModule) return;
     try {
       setLoading(true);
       const response = await axios.get('/api/logdata');
@@ -60,7 +61,23 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchLogData();
+    if (typeof window !== 'undefined') {
+      const savedModule = sessionStorage.getItem('selectedModule');
+      if (savedModule) {
+        setSelectedModule(savedModule);
+      } else {
+        setSelectedModule('Django');
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedModule) {
+      fetchLogData();
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('selectedModule', selectedModule);
+      }
+    }
   }, [selectedModule]);
 
   const filteredLogData = selectedServer
@@ -91,7 +108,7 @@ export default function Home() {
     <Box className="flex">
       <CssBaseline />
 
-      <Sidebar selectedModule={selectedModule} onModuleClick={setSelectedModule} />
+      <Sidebar selectedModule={selectedModule || 'Django'} onModuleClick={setSelectedModule} />
 
       <main style={{ flexGrow: 1, padding: '60px', paddingTop: '120px' }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
@@ -116,7 +133,7 @@ export default function Home() {
         <Dashboard
           logData={sortedLogData}
           loading={loading}
-          selectedModule={selectedModule}
+          selectedModule={selectedModule || 'Django'}
           serverMessage={serverMessage} />
       </main>
     </Box >
