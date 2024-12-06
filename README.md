@@ -1,8 +1,8 @@
-# DEC Energy Landing Page
+# DEC Admin Dashboard
 
 ## Project Overview
 
-**DEC Energy Landing Page** is a dynamic web application built with **Next.js**. This application provides users with an intuitive interface for viewing and managing logs across different company modules (e.g., **Django**, **Website**, **Database**). The project demonstrates the use of **Next.js** for server-side rendering, **React** for state management, and **Material UI (MUI)** and **Tailwind CSS** for responsive, modern design. It fetches real-time data with **Axios** from a custom API endpoint and displays it in an organized table with sortable columns and easy navigation between modules.
+**DEC Admin Dashboard** is a dynamic web application built with **Next.js**. This application provides users with an intuitive interface for viewing and managing logs across different company modules (e.g., **Django**, **Website**, **Database**). The project demonstrates the use of **Next.js** for server-side rendering, **React** for state management, and **Material UI (MUI)** and **Tailwind CSS** for responsive, modern design. It fetches real-time data with **Axios** from a custom API endpoint and displays it in an organized table with sortable columns and easy navigation between modules.
 
 ## Features
 
@@ -15,7 +15,7 @@
 
 ## Demo
 
-A demo video showcases key features of the **DEC Energy Landing Page**, including module navigation, log filtering, and sorting options for a streamlined log viewing experience.
+A demo video showcases key features of the **DEC Admin Dashboard**, including module navigation, log filtering, and sorting options for a streamlined log viewing experience.
 
 ![dec-landing](https://github.com/user-attachments/assets/cf527a1b-0469-436f-b82f-fb0b7cc8575e)
 
@@ -28,7 +28,7 @@ A demo video showcases key features of the **DEC Energy Landing Page**, includin
 
 ## What I Did in This Project
 
-In the **DEC Energy Landing Page** project, I implemented:
+In the **DEC Admin Dashboard** project, I implemented:
 
 - **Server-Side Data Fetching with Axios**:
   - Leveraged **Next.js** server-side features to fetch data from an API using **Axios**, ensuring optimized performance.
@@ -49,4 +49,4 @@ In the **DEC Energy Landing Page** project, I implemented:
 
 ## Conclusion
 
-This project demonstrates advanced usage of **Next.js**, **React**, and modern UI libraries to build a feature-rich and highly interactive web application. The DEC Energy Landing Page serves as a practical example of creating scalable and user-friendly applications that are both responsive and visually appealing.
+This project demonstrates advanced usage of **Next.js**, **React**, and modern UI libraries to build a feature-rich and highly interactive web application. The DEC Admin Dashboard serves as a practical example of creating scalable and user-friendly applications that are both responsive and visually appealing.
