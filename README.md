@@ -1,5 +1,5 @@
 # Admin Log Monitoring Dashboard
-![Image](https://github.com/user-attachments/assets/d88071dc-f137-420c-93da-c16508af4372) ![Image](https://github.com/user-attachments/assets/ad6704be-f758-4f71-94a1-d5849038ffed)
+![Image](https://github.com/user-attachments/assets/705937de-066f-4b6d-b638-68e48035152d) ![Image](https://github.com/user-attachments/assets/aa5aa613-700a-41ac-8ad5-b3b51422799e)
 
 ## Project Overview
 
